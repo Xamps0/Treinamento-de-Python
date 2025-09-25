@@ -6,17 +6,25 @@ Janela = pygame.display.set_mode((640,480))
 pygame.display.set_caption("Acerte o alvo!")
 clock = pygame.time.Clock()
 FPS = 60
+
 pygame.mixer.music.load("TremLoadingLoopl.mp3")
 pygame.mixer.music.play(-1)
 pygame.mixer.music.set_volume(0.2)
+
+efeito_tiro = pygame.mixer.Sound("pistol.wav")
+efeito_explosao = pygame.mixer.Sound("explodemini.wav")
+efeito_tiro.set_volume(0.3)
+efeito_explosao.set_volume(0.5)
+
 Fonte_Pequena = pygame.font.SysFont('Arial', 12,True ,False )
+
 pygame.mouse.set_visible(False)
 
 alvo_contador = 0
 alvo_pos_x = random.randrange(50, 560)
 alvo_pos_y = random.randrange(50, 400)
 alvo_tamanho = 30
-pontos = 0
+acertos = 0
 
 cor_preto = (0, 0, 0)
 cor_azul = (0, 0, 230)
@@ -39,11 +47,13 @@ while run:
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
+                efeito_tiro.play()
                 if rect_mira.colliderect(rect_alvo):
                     alvo_cor = cor_preto
-                    pontos += 1
+                    efeito_explosao.play()
+                    acertos += 1
 
-    texto_x = Fonte_Pequena.render("Pontos: " + str(pontos), True, (255, 255, 255))
+    texto_x = Fonte_Pequena.render("Acertos: " + str(acertos), True, (255, 255, 255))
 
     #Draw/Apresentação
     Janela.fill((0,0,0))
